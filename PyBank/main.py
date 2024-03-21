@@ -12,11 +12,11 @@ totalNet = 0
 
 # create empty lists to hold analysis results
 netChange = []
-monthOfChang = []
+monthChange = []
 
-# define greatest & least
-greatest = ["", 0]
-least = ["", 999999999999999999]
+# set upper/lower limits for greatest increase/decrease
+greatestIncrease = ["", 0]
+leastDecrease = ["", 999999999999999]
 
 # open and read csv file
 with open(budget_data_csv) as budgetData:
@@ -45,9 +45,37 @@ with open(budget_data_csv) as budgetData:
         # track/calculate changes in net
         netChange = int(row[1]) - lastNet
         lastNet = int(row[1])
+        netChangeHolder.append(netChange)
 
-        print(netChange)
-        print(lastNet)
+        # calculate greatest increase
+        if(netChange > greeatestIncrease[1]):
+            #update depending on findings
+            greatestIncrease[0] = row[0]
+            greatestIncrease[1] = netChange
+        
+
+        # calculate greatest decrease
+        if(netChange < greatestDecrease[1]):
+            #update depending on findings
+            greatestDecrease[0] = row[0]
+            greatestDecrease[1]= netChange
+
+
+
+
+
+
+
+
+
+
+print(netChange)
+
+# calculate/pull data for analysis summary
+monthlyAverage = sum(netChangeHolder/) / len(netChangeHolder)
+averageChange = {monthlyAverage:.2f}
+
+
 
 
 
