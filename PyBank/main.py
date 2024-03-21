@@ -27,18 +27,28 @@ with open(budget_data_csv) as budgetData:
     # read headers
     header = next(reader)
 
-    # set first data row and start point of calculations/counting
+    # set first data row and variables to track totals and changes
     firstRow = next(reader)
     totalNet += int(firstRow[1])
+    lastNet = int(firstRow[1])
 
     # confirm code starts on first data row
     print(firstRow)
 
     # create for loop for calculations/counting
     for row in reader:
-        # define for calculations/counting and set data type as integer
+
+        # track totals
+        totalMonths += 1
         totalNet += int(firstRow[1])
-        previousNet = int(firstRow[1])
+
+        # track/calculate changes in net
+        netChange = int(row[1]) - lastNet
+        lastNet = int(row[1])
+
+        print(netChange)
+        print(lastNet)
+
 
 
 
