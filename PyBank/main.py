@@ -12,11 +12,12 @@ totalNet = 0
 
 # create empty lists to hold analysis results
 netChange = []
+netChangeHolder = []
 monthChange = []
 
 # set upper/lower limits for greatest increase/decrease
 greatestIncrease = ["", 0]
-leastDecrease = ["", 999999999999999]
+greatestDecrease = ["", 999999999999999]
 
 # open and read csv file
 with open(budget_data_csv) as budgetData:
@@ -31,6 +32,7 @@ with open(budget_data_csv) as budgetData:
     firstRow = next(reader)
     totalNet += int(firstRow[1])
     lastNet = int(firstRow[1])
+    totalMonths += 1
 
     # confirm code starts on first data row
     print(firstRow)
@@ -48,7 +50,7 @@ with open(budget_data_csv) as budgetData:
         netChangeHolder.append(netChange)
 
         # calculate greatest increase
-        if(netChange > greeatestIncrease[1]):
+        if(netChange > greatestIncrease[1]):
             #update depending on findings
             greatestIncrease[0] = row[0]
             greatestIncrease[1] = netChange
@@ -61,26 +63,26 @@ with open(budget_data_csv) as budgetData:
             greatestDecrease[1]= netChange
 
 
+# calculate/format data for analysis summary
+monthlyAverage = sum(netChangeHolder) / len(netChangeHolder)
+averageChange = round(monthlyAverage,2)
 
 
+# Print the analysis to the terminal to match instructions
+analysis = (
+    f"Financial Analysis\n"
+    f"----------------------------\n"
+    f"Total Months: {totalMonths}\n"
+    f"Total: ${totalNet}\n"
+    f"Average Change: {averageChange}\n"
+    f"Greatest Increase in Profits: {greatestIncrease[0]} ${greatestIncrease[1]}\n"
+    f"Greatest Decrease in Profits: {greatestDecrease[0]} ${greatestDecrease[1]}\n")
+
+print(analysis)
+
+# export to text file
+with open(budget_data_analysis_txt, "w") as txt_file:
+    txt_file.write(analysis)
 
 
-
-
-
-
-print(netChange)
-
-# calculate/pull data for analysis summary
-monthlyAverage = sum(netChangeHolder/) / len(netChangeHolder)
-averageChange = {monthlyAverage:.2f}
-
-
-
-
-
-
-
-
-
-
+# end of code
