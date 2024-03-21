@@ -25,8 +25,22 @@ with open(election_data_csv) as electionData:
     # create for loop to count votes
     for row in reader:
 
+        # adding votes to totals
         totalVotes = totalVotes + 1
 
+        # pull candidate names for analysis
+        candidateName = row[2]
+
+        # create if statement for what to do if vote is for anyone not in candidates[] or write-in votes
+        if candidateName not in candidates:
+
+            # add new name to candidates
+            candidates.append(candidateName)
+
+            # create starting value for all candidates' vote counts
+            candidateVotes[candidateName] = 0
+        
+        candidateVotes[candidateNames] += 1
 
 
 # results/analysis
@@ -39,5 +53,5 @@ electionFinalResults = (f"Election Results\n"
 # export analysis as a text file
 with open(election_data_analysis_txt, "w") as txt_file:
     txt_file.write("election_data_analysis.txt")
-    
+
     
