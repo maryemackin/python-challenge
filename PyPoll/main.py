@@ -7,13 +7,17 @@ election_data_csv = os.path.join("Resources", "election_data.csv")
 election_data_analysis_txt = os.path.join("analysis", "election_data_analysis.txt")
 
 # create variables for analysis and set start values & empty lists/dictionaries to hold analysis results
+
+# total vote counter
 totalVotes = 0
+
+# create list of candidates and dictionary to hold names/count votes
 candidates = []
 candidateVotes = {}
-winner = ""
+
+# winner and their vote count
 winningVoteTotals = 0
-candidateName = ""
-votes = 0
+winner = ""
 
 
 # open and read csv file
@@ -31,13 +35,13 @@ with open(election_data_csv) as electionData:
         # adding votes to totals
         totalVotes = totalVotes + 1
 
-        # pull candidate names for analysis
+        # pull candidate names from each row for analysis
         candidateName = row[2]
 
-        # create if statement for what to do if vote is for anyone not in candidates[] or write-in votes
+        # create if statement to add candidates to list and count their votes
         if candidateName not in candidates:
 
-            # add new name to candidates
+            # add new name to candidates list
             candidates.append(candidateName)
 
             # create starting value for all candidates' vote counts
@@ -47,47 +51,42 @@ with open(election_data_csv) as electionData:
         candidateVotes[candidateName] += 1
 
         # results/analysis
+        with open(election_data_analysis_txt, "w") as txt_file:
+            electionAnalysis = (
+                f"Election Results\n"
+                f"-------------------------\n"
+                f"Total Votes: {totalVotes}\n"
+                f"-------------------------\n"
+            )
 
-        # variables for summary
-        votePercent = float(votes) / float(totalVotes) * 100
-        votes = candidateVotes(candidates)
- 
-        electionFinal = f"{candidates}: {votePercent:.3f}% ({votes})\n"
+            print(electionAnalysis, end="")
 
-        
-        electionAnalysis = (f"Election Results\n"
-                        f"-------------------------\n"
-                        f"Total Votes: {totalVotes}\n"
-                        f"-------------------------\n"
-                        f"{electionFinal}"
-                        f"-------------------------\n"
-                        f"Winner: {winner}\n"
-                        f"-------------------------\n")
+            txt_file.write(electionAnalysis)
 
+            for candidate in candidateVotes:
 
-        # print result and clean up spacing for summary
-        print(electionFinal, end="")
+                votes = candidateVotes[candidates]
+                votePercent = float(votes) / float(totalVotes) * 100
 
-        txt_file.write("election_data_analysis.txt")
+                if(votes > winningVoteTotals):
 
-        # create for loop with an if statement to calculate winner
-        for candidate in candidateVotes:            
+                    winningVoteTotal = votes
+                    winner = candidate
+                
+                electionFinal = (f"{candidate}: {votePercent:.3f}% ({votes})\n")
 
-            if(votes > winningVoteTotals):
-                winningVoteTotals = votes
-                winnerName = candidate
+                print(electionFinal, end="")
 
-            # print result and clean up spacing for summary
-            print(electionFinal, end="")
+                txt_file.write(electionAnalysis)
+            
+            electionSummary = (                
+                f"{electionFinal}"
+                f"-------------------------\n"
+                f"Winner: {winner}\n"
+                f"-------------------------\n"
+            )
 
+            print(electionSummary)
 
-
-
-
-
-
-
-
-# export analysis as a text file
-with open(election_data_analysis_txt, "w") as txt_file:
-    txt_file.write("election_data_analysis.txt")
+            txt_file.write(electionSummary)
+            
