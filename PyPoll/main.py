@@ -3,8 +3,8 @@ import os
 import csv
 
 # Set path/file to import/export
-election_data_csv = os.path.join("PyPoll", "Resources", "election_data.csv")
-election_data_analysis_txt = os.path.join("PyPoll", "analysis", "election_data_analysis.txt")
+election_data_csv = os.path.join("Resources", "election_data.csv")
+election_data_analysis_txt = os.path.join("analysis", "election_data_analysis.txt")
 
 # create variables for analysis and set start values & empty lists/dictionaries to hold analysis results
 totalVotes = 0
